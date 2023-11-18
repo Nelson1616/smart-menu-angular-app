@@ -1,7 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterRenderPhase,
+  Component,
+  OnDestroy,
+  OnInit,
+  afterNextRender,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ApiHttpService } from '../services/http/api-http.service';
+import { ApiSocketService } from '../services/socket/api-socket.service';
 
 @Component({
   selector: 'app-tables',
@@ -10,23 +17,37 @@ import { ApiHttpService } from '../services/http/api-http.service';
   templateUrl: './tables.component.html',
   styleUrl: './tables.component.css',
 })
-export class TablesComponent implements OnInit {
+export class TablesComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private api: ApiHttpService,
-  ) {}
+    private socket: ApiSocketService,
+  ) {
+    afterNextRender(
+      () => {
+        console.log('afterNextRender', this.tableCode);
+
+        this.api.getTableByCode(this.tableCode).subscribe((data) => {
+          console.log(data);
+        });
+
+        this.socket.connect();
+      },
+      { phase: AfterRenderPhase.Write },
+    );
+  }
 
   tableCode: string = '';
 
-  ngOnInit() {
+  ngOnInit(): void {
+    console.log('ngOnInit');
+
     this.route.paramMap.subscribe((paramMap) => {
       this.tableCode = paramMap.get('code')!;
-
-      this.api.getTableByCode(this.tableCode).subscribe((data) => {
-        console.log(data);
-      });
     });
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy(): void {
+    this.socket.disconnect();
+  }
 }
