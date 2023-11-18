@@ -10,15 +10,23 @@ export class ApiHttpService {
 
   private mainUrl: string = 'https://smartmenuapi.nntech.online/api/';
 
-  private get(url: string): Observable<object> {
-    return this.http.get(this.mainUrl + url);
+  private get(url: string) {
+    return this.http.get(this.mainUrl + url) as Observable<{
+      success: boolean;
+      message: string;
+      data: unknown;
+    }>;
   }
 
-  private post(url: string, body: object): Observable<object> {
-    return this.http.post(this.mainUrl + url, body);
+  private post(url: string, body: object) {
+    return this.http.post(this.mainUrl + url, body) as Observable<{
+      success: boolean;
+      message: string;
+      data: unknown;
+    }>;
   }
 
-  getTableByCode(code: string): Observable<object> {
+  getTableByCode(code: string) {
     return this.get('tables/' + code);
   }
 }

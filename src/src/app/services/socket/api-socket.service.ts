@@ -22,14 +22,10 @@ export class ApiSocketService {
     if (this.socket.disconnected) {
       this.socket.connect();
     }
-
-    console.log('is socket connected', this.socket.connected);
   }
 
   disconnect() {
     this.socket.disconnect();
-
-    console.log('is socket connected', this.socket.connected);
   }
 
   onConnect(): Observable<string> {
@@ -40,12 +36,14 @@ export class ApiSocketService {
     });
   }
 
-  onUsers(): Observable<object> {
-    return new Observable<object>((observer) => {
-      this.socket.on('users', (data) => {
-        observer.next(data);
-      });
-    });
+  onUsers() {
+    return new Observable<{ session: unknown; sessionUsers: unknown[] }>(
+      (observer) => {
+        this.socket.on('users', (data) => {
+          observer.next(data);
+        });
+      }
+    );
   }
 
   joinTable(tableCode: string) {
