@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgOptimizedImage } from '@angular/common';
+import { Logger } from '../utils/logger/logger';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +12,7 @@ import { NgOptimizedImage } from '@angular/common';
 })
 export class HomeComponent {
   constructor() {
-    console.log('teste');
+    Logger.d('teste');
   }
   count: number = 0;
 

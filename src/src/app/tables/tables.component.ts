@@ -11,6 +11,7 @@ import { ApiHttpService } from '../services/http/api-http.service';
 import { ApiSocketService } from '../services/socket/api-socket.service';
 import { SessionUser } from '../models/session-user/session-user';
 import { Table } from '../models/table/table';
+import { Logger } from '../utils/logger/logger';
 
 @Component({
   selector: 'app-tables',
@@ -27,7 +28,7 @@ export class TablesComponent implements OnInit, OnDestroy {
   ) {
     afterNextRender(
       () => {
-        console.log('afterNextRender', this.tableCode);
+        Logger.d(['afterNextRender', this.tableCode]);
 
         this.setupTableData();
 
@@ -52,9 +53,9 @@ export class TablesComponent implements OnInit, OnDestroy {
 
         const table = Table.parse(JSON.stringify(body.data));
 
-        console.log(table);
+        Logger.d(table);
       } catch (e) {
-        console.log((e as Error).message);
+        Logger.d((e as Error).message);
       }
     });
   }
@@ -63,30 +64,30 @@ export class TablesComponent implements OnInit, OnDestroy {
     this.socket.connect();
 
     this.socket.onConnect().subscribe((message) => {
-      console.log('socket onConnect', message);
+      Logger.d(['socket onConnect', message]);
 
       this.socket.joinTable(this.tableCode);
     });
 
     this.socket.onUsers().subscribe((data) => {
-      console.log('socket onUsers', data.sessionUsers);
+      Logger.d(['socket onUsers', data.sessionUsers]);
 
       data.sessionUsers.forEach((sessionUserObj) => {
         try {
           const sessionUser: SessionUser = SessionUser.parse(
             JSON.stringify(sessionUserObj)
           );
-          console.log('SessionUser', sessionUser);
-          console.log('SessionUser name', sessionUser.user?.getName());
+          Logger.d(['SessionUser', sessionUser]);
+          Logger.d(['SessionUser name', sessionUser.user?.getName()]);
         } catch (e) {
-          console.log((e as Error).message);
+          Logger.d((e as Error).message);
         }
       });
     });
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit');
+    Logger.d('ngOnInit');
 
     this.route.paramMap.subscribe((paramMap) => {
       this.tableCode = paramMap.get('code')!;
