@@ -12,11 +12,12 @@ import { ApiSocketService } from '../services/socket/api-socket.service';
 import { SessionUser } from '../models/session-user/session-user';
 import { Table } from '../models/table/table';
 import { Logger } from '../utils/logger/logger';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-tables',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgOptimizedImage],
   templateUrl: './tables.component.html',
   styleUrl: './tables.component.css',
 })

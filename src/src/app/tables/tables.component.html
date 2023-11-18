@@ -1,4 +1,4 @@
-<nav class="navbar bg-body-tertiary">
+<nav class="navbar bg-body-secondary">
   <div class="container-fluid">
     @defer (when table != null) {
       <span class="navbar-brand m-auto"> {{ table?.restaurant?.name }} </span>
@@ -7,3 +7,65 @@
     }
   </div>
 </nav>
+
+@defer (when table != null) {
+  <div class="row">
+    <div class="col-sm-8 p-3">
+      <div
+        style="width: 80%; aspect-ratio: 1.5; position: relative"
+        class="mx-auto"
+      >
+        <img
+          [ngSrc]="table!.restaurant!.image"
+          fill
+          alt=""
+          class="rounded"
+          priority
+        />
+      </div>
+
+      <p class="m-3">
+        {{ table!.restaurant!.description }}
+      </p>
+
+      @for (product of table!.restaurant!.products; track product.id) {
+        <div style="width: 90%" class="row mx-auto my-3 bg-light rounded p-2">
+          <div class="col-6">
+            <div
+              style="width: 100%; aspect-ratio: 1; position: relative"
+              class="mx-auto my-2"
+            >
+              <img
+                [ngSrc]="product.image"
+                fill
+                alt=""
+                class="rounded"
+                priority
+              />
+            </div>
+          </div>
+
+          <div class="col-6">
+            <p class="h4">{{ product.name }}</p>
+
+            <p>{{ product.description }}</p>
+
+            <p class="h5 text-success">
+              R$
+              <span class="h4 text-success"> {{ product.price / 100 }} </span>
+            </p>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="col-sm-4 bg-secondary"></div>
+  </div>
+} @placeholder (minimum 1s) {
+  <div
+    class="d-flex justify-content-center align-items-center"
+    style="height: 500px"
+  >
+    <div class="spinner-grow mx-auto" role="status"></div>
+  </div>
+}
