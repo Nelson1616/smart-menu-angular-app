@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+    # image project
+    angular-app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: unless-stopped
+        command: sh -c "npm install && npm run start"
+        container_name: angular-app
+        volumes:
+            - ./src:/src/
+        networks:
+            - appnet
+    nginx:
+        restart: unless-stopped
+        build:
+            context: ./nginx
+        ports:
+            - "8017:80"
+        networks:
+            - appnet
+        depends_on:
+            - angular-app
+
+networks:
+    appnet:
+        driver: bridge
