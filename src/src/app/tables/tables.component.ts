@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { ApiHttpService } from '../services/api-http.service';
+import { ApiHttpService } from '../services/http/api-http.service';
 
 @Component({
   selector: 'app-tables',
@@ -27,4 +27,6 @@ export class TablesComponent implements OnInit {
       });
     });
   }
+
+  ngOnDestroy() {}
 }
