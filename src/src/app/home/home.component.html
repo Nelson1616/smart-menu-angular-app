@@ -1,0 +1,13 @@
+<h1>Hello, {{ title }}</h1>
+
+<div style="width: 300px; height: 300px; position: relative">
+  <img alt="photo" [ngSrc]="mainImage" fill priority />
+</div>
+
+<h2>count: {{ count }}</h2>
+
+@for (item of countArray; track item) {
+  hello <br />
+}
+
+<button (click)="onclick()">Click</button>
