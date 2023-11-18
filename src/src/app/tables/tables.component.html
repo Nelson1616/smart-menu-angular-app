@@ -1,10 +1,9 @@
-@defer {
-  Lets go
-} @loading (minimum 3s) {
-  Loading...
-}
-
-<br />
-<br />
-
-code = {{ tableCode }}
+<nav class="navbar bg-body-tertiary">
+  <div class="container-fluid">
+    @defer (when table != null) {
+      <span class="navbar-brand m-auto"> {{ table?.restaurant?.name }} </span>
+    } @placeholder (minimum 1s) {
+      <div class="spinner-grow m-auto" role="status"></div>
+    }
+  </div>
+</nav>

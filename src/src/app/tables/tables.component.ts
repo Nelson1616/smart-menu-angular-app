@@ -40,6 +40,8 @@ export class TablesComponent implements OnInit, OnDestroy {
 
   tableCode: string = '';
 
+  table: Table | null = null;
+
   setupTableData() {
     this.api.getTableByCode(this.tableCode).subscribe((body) => {
       try {
@@ -51,9 +53,9 @@ export class TablesComponent implements OnInit, OnDestroy {
           throw new Error(body.message);
         }
 
-        const table = Table.parse(JSON.stringify(body.data));
+        this.table = Table.parse(JSON.stringify(body.data));
 
-        Logger.d(table);
+        Logger.d(this.table);
       } catch (e) {
         Logger.d((e as Error).message);
       }
