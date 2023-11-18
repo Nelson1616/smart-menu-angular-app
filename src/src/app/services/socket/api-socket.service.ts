@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 
 @Injectable({
@@ -29,5 +30,27 @@ export class ApiSocketService {
     this.socket.disconnect();
 
     console.log('is socket connected', this.socket.connected);
+  }
+
+  onConnect(): Observable<string> {
+    return new Observable<string>((observer) => {
+      this.socket.on('connect', () => {
+        observer.next('connected');
+      });
+    });
+  }
+
+  onUsers(): Observable<object> {
+    return new Observable<object>((observer) => {
+      this.socket.on('users', (data) => {
+        observer.next(data);
+      });
+    });
+  }
+
+  joinTable(tableCode: string) {
+    this.socket.emit('join_table', {
+      table_code: tableCode,
+    });
   }
 }

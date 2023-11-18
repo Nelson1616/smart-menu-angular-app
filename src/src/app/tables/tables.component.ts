@@ -32,6 +32,16 @@ export class TablesComponent implements OnInit, OnDestroy {
         });
 
         this.socket.connect();
+
+        this.socket.onConnect().subscribe((message) => {
+          console.log('socket onConnect', message);
+
+          this.socket.joinTable(this.tableCode);
+        });
+
+        this.socket.onUsers().subscribe((data) => {
+          console.log('socket onUsers', data);
+        });
       },
       { phase: AfterRenderPhase.Write },
     );
