@@ -18,11 +18,13 @@ import { Logger } from '../utils/logger/logger';
 import { NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-tables',
   standalone: true,
   imports: [CommonModule, NgOptimizedImage, FormsModule],
+  providers: [CookieService],
   templateUrl: './tables.component.html',
   styleUrl: './tables.component.css',
 })
@@ -46,7 +48,8 @@ export class TablesComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private api: ApiHttpService,
-    private socket: ApiSocketService
+    private socket: ApiSocketService,
+    private cookieService: CookieService
   ) {
     afterNextRender(
       () => {
@@ -136,17 +139,32 @@ export class TablesComponent implements OnInit, OnDestroy {
 
     this.api
       .enterTableByCode(this.tableCode, this.userName, this.selectedAvatar.id)
-      .subscribe((data) => {
+      .subscribe((body) => {
         try {
-          Logger.d(data);
+          Logger.d(body);
 
-          if (data.success == null) {
+          if (body.success == null) {
             throw new Error('unknow message from api');
           }
 
-          if (data.success == false) {
-            this.toastr.error(data.message, 'Erro');
+          if (body.success == false) {
+            this.toastr.error(body.message, 'Erro');
           }
+
+          const dataObj = body.data as { sessionUser: unknown; table: unknown };
+
+          const currentSessionUser = SessionUser.parse(
+            JSON.stringify(dataObj.sessionUser)
+          );
+          const currentTable = Table.parse(JSON.stringify(dataObj.table));
+
+          this.cookieService.set(
+            'currentSessionUserId',
+            currentSessionUser.id + ''
+          );
+          this.cookieService.set('currentTableId', currentTable.id + '');
+
+          Logger.d([currentSessionUser, currentTable]);
         } catch (e) {
           Logger.d((e as Error).message);
         }
