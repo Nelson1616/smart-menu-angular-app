@@ -75,4 +75,10 @@ export class ApiSocketService {
       session_user_id: sessionUserId,
     });
   }
+
+  callCaiter(sessionUserId: number) {
+    this.socket.emit('call_waiter', {
+      session_user_id: sessionUserId,
+    });
+  }
 }

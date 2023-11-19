@@ -36,6 +36,8 @@ export class SessionComponent implements OnInit, OnDestroy {
   sessionUsers: WritableSignal<SessionUser[]> = signal([]);
   sessionOrders: WritableSignal<SessionOrder[]> = signal([]);
 
+  enableWaiterCall: boolean = true;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -170,6 +172,20 @@ export class SessionComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.router.navigate(['/']);
     }, 1000);
+  }
+
+  makeWaiterCall() {
+    if (this.enableWaiterCall) {
+      this.toastr.success('Aguarde o atendimento.', 'Chamando Garçom');
+
+      this.enableWaiterCall = false;
+
+      this.socket.callCaiter(this.currentSessionUserId);
+
+      setInterval(() => {
+        this.enableWaiterCall = true;
+      }, 5000);
+    }
   }
 
   ngOnInit(): void {

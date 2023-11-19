@@ -9,7 +9,11 @@
     "
   >
     @defer (when (table != null && currentSessionUser != null)) {
-      <div class="col-4"></div>
+      <div class="col-4">
+        <button class="btn btn-outline-light mx-2" (click)="makeWaiterCall()">
+          <i class="bi bi-person-raised-hand"></i>
+        </button>
+      </div>
 
       <div class="col-4 d-flex justify-content-center">
         <div
