@@ -12,7 +12,24 @@
       <div class="col-4"></div>
 
       <div class="col-4 d-flex justify-content-center">
-        <span class="navbar-brand m-auto"> {{ table?.restaurant?.name }} </span>
+        <div
+          class="rounded-pill border border-light p-2"
+          style="white-space: nowrap"
+        >
+          <button
+            class="btn btn-light text-danger rounded-pill mx-1"
+            style="width: 80px; font-size: smaller"
+          >
+            Cardápio
+          </button>
+
+          <button
+            class="btn btn-danger text-light rounded-pill mx-1"
+            style="width: 80px; font-size: smaller"
+          >
+            Conta
+          </button>
+        </div>
       </div>
 
       <div
@@ -26,8 +43,8 @@
       >
         <img
           [ngSrc]="currentSessionUserImagePath"
-          width="45"
-          height="45"
+          width="40"
+          height="40"
           alt=""
           class="rounded-circle ml-auto"
           priority
