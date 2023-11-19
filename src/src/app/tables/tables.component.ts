@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiHttpService } from '../services/http/api-http.service';
 import { ApiSocketService } from '../services/socket/api-socket.service';
 import { SessionUser } from '../models/session-user/session-user';
@@ -46,6 +46,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private toastr: ToastrService,
     private api: ApiHttpService,
     private socket: ApiSocketService,
@@ -145,26 +146,29 @@ export class TablesComponent implements OnInit, OnDestroy {
 
           if (body.success == null) {
             throw new Error('unknow message from api');
-          }
-
-          if (body.success == false) {
+          } else if (body.success == false) {
             this.toastr.error(body.message, 'Erro');
+          } else {
+            const dataObj = body.data as {
+              sessionUser: unknown;
+              table: unknown;
+            };
+
+            const currentSessionUser = SessionUser.parse(
+              JSON.stringify(dataObj.sessionUser)
+            );
+            const currentTable = Table.parse(JSON.stringify(dataObj.table));
+
+            this.cookieService.set(
+              'currentSessionUserId',
+              currentSessionUser.id + ''
+            );
+            this.cookieService.set('currentTableId', currentTable.id + '');
+
+            Logger.d([currentSessionUser, currentTable]);
+
+            this.router.navigate(['/session']);
           }
-
-          const dataObj = body.data as { sessionUser: unknown; table: unknown };
-
-          const currentSessionUser = SessionUser.parse(
-            JSON.stringify(dataObj.sessionUser)
-          );
-          const currentTable = Table.parse(JSON.stringify(dataObj.table));
-
-          this.cookieService.set(
-            'currentSessionUserId',
-            currentSessionUser.id + ''
-          );
-          this.cookieService.set('currentTableId', currentTable.id + '');
-
-          Logger.d([currentSessionUser, currentTable]);
         } catch (e) {
           Logger.d((e as Error).message);
         }
