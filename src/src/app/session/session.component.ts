@@ -38,6 +38,8 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   enableWaiterCall: boolean = true;
 
+  onProductsPage: boolean = true;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -186,6 +188,10 @@ export class SessionComponent implements OnInit, OnDestroy {
         this.enableWaiterCall = true;
       }, 5000);
     }
+  }
+
+  switchPage(product: boolean) {
+    this.onProductsPage = product;
   }
 
   ngOnInit(): void {

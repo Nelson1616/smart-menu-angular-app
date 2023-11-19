@@ -21,15 +21,25 @@
           style="white-space: nowrap"
         >
           <button
-            class="btn btn-light text-danger rounded-pill mx-1"
+            [class]="
+              onProductsPage
+                ? 'btn btn-light text-danger rounded-pill mx-1'
+                : 'btn btn-danger text-light rounded-pill mx-1'
+            "
             style="width: 80px; font-size: smaller"
+            (click)="switchPage(true)"
           >
             Cardápio
           </button>
 
           <button
-            class="btn btn-danger text-light rounded-pill mx-1"
+            [class]="
+              !onProductsPage
+                ? 'btn btn-light text-danger rounded-pill mx-1'
+                : 'btn btn-danger text-light rounded-pill mx-1'
+            "
             style="width: 80px; font-size: smaller"
+            (click)="switchPage(false)"
           >
             Conta
           </button>
@@ -154,7 +164,11 @@
         </div>
       </div>
 
-      <div class="row w-100 mx-auto" style="margin-bottom: 200px" hidden>
+      <div
+        class="row w-100 mx-auto"
+        style="margin-bottom: 200px"
+        [hidden]="!onProductsPage"
+      >
         @for (product of table!.restaurant!.products; track product.id) {
           <div class="col-12 my-3">
             <div style="width: 90%" class="row mx-auto bg-light rounded p-2">
@@ -201,7 +215,11 @@
         }
       </div>
 
-      <div class="row w-100 mx-auto" style="margin-bottom: 200px">
+      <div
+        class="row w-100 mx-auto"
+        style="margin-bottom: 200px"
+        [hidden]="onProductsPage"
+      >
         @for (sessionOrder of sessionOrders(); track sessionOrder.id) {
           <div class="col-12 my-3">
             <div style="width: 90%" class="row mx-auto bg-light rounded p-2">
