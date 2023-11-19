@@ -22,6 +22,17 @@ import { NgOptimizedImage } from '@angular/common';
   styleUrl: './tables.component.css',
 })
 export class TablesComponent implements OnInit, OnDestroy {
+  tableCode: string = '';
+
+  table: Table | null = null;
+
+  avatars: Array<{ id: number; path: string }> = [];
+
+  selectedAvatar: { id: number; path: string } = {
+    id: 1,
+    path: '/assets/images/avatar_1.png',
+  };
+
   constructor(
     private route: ActivatedRoute,
     private api: ApiHttpService,
@@ -38,10 +49,6 @@ export class TablesComponent implements OnInit, OnDestroy {
       { phase: AfterRenderPhase.Write }
     );
   }
-
-  tableCode: string = '';
-
-  table: Table | null = null;
 
   setupTableData() {
     this.api.getTableByCode(this.tableCode).subscribe((body) => {
@@ -89,12 +96,26 @@ export class TablesComponent implements OnInit, OnDestroy {
     });
   }
 
+  selectAvatar(avatarId: number) {
+    this.selectedAvatar = {
+      id: avatarId,
+      path: `/assets/images/avatar_${avatarId}.png`,
+    };
+  }
+
   ngOnInit(): void {
     Logger.d('ngOnInit');
 
     this.route.paramMap.subscribe((paramMap) => {
       this.tableCode = paramMap.get('code')!;
     });
+
+    for (let i = 1; i < 9; i++) {
+      this.avatars.push({
+        id: i,
+        path: `/assets/images/avatar_${i}.png`,
+      });
+    }
   }
 
   ngOnDestroy(): void {

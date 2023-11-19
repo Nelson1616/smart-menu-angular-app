@@ -68,8 +68,45 @@
       </div>
     </div>
 
-    <div class="col-sm-4 bg-danger d-flex justify-content-center">
-      <h3 class="text-light my-3">Perfil</h3>
+    <div class="col-sm-4 bg-danger">
+      <h3 class="text-light text-center my-3">Perfil</h3>
+
+      <div>
+        @for (avatar of avatars; track avatar.id) {
+          <div
+            style="width: 80%; aspect-ratio: 1; position: relative"
+            class="mx-auto my-3"
+            [hidden]="avatar.id != selectedAvatar.id"
+          >
+            <img
+              [ngSrc]="avatar.path"
+              fill
+              alt=""
+              class="rounded-circle"
+              priority
+            />
+          </div>
+        }
+      </div>
+
+      <div>
+        <ul class="d-flex flex-wrap w-75 mx-auto">
+          @for (avatar of avatars; track avatar.id) {
+            <div
+              style="width: 20%; aspect-ratio: 1; position: relative"
+              (click)="selectAvatar(avatar.id)"
+            >
+              <img
+                [ngSrc]="avatar.path"
+                fill
+                alt=""
+                class="rounded-circle"
+                priority
+              />
+            </div>
+          }
+        </ul>
+      </div>
     </div>
   </div>
 } @placeholder (minimum 1s) {
