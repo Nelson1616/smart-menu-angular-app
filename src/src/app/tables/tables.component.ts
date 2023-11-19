@@ -3,7 +3,10 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  WritableSignal,
   afterNextRender,
+  effect,
+  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -25,6 +28,8 @@ export class TablesComponent implements OnInit, OnDestroy {
   tableCode: string = '';
 
   table: Table | null = null;
+
+  sessionUsers: WritableSignal<SessionUser[]> = signal([]);
 
   avatars: Array<{ id: number; path: string }> = [];
 
@@ -48,6 +53,10 @@ export class TablesComponent implements OnInit, OnDestroy {
       },
       { phase: AfterRenderPhase.Write }
     );
+
+    effect(() => {
+      Logger.d(['sessionUsers siginal', this.sessionUsers()]);
+    });
   }
 
   setupTableData() {
@@ -82,6 +91,10 @@ export class TablesComponent implements OnInit, OnDestroy {
     this.socket.onUsers().subscribe((data) => {
       Logger.d(['socket onUsers', data.sessionUsers]);
 
+      this.sessionUsers.set([]);
+
+      const newSessionUsers: SessionUser[] = [];
+
       data.sessionUsers.forEach((sessionUserObj) => {
         try {
           const sessionUser: SessionUser = SessionUser.parse(
@@ -89,10 +102,14 @@ export class TablesComponent implements OnInit, OnDestroy {
           );
           Logger.d(['SessionUser', sessionUser]);
           Logger.d(['SessionUser name', sessionUser.user?.getName()]);
+
+          newSessionUsers.push(sessionUser);
         } catch (e) {
           Logger.d((e as Error).message);
         }
       });
+
+      this.sessionUsers.set(newSessionUsers);
     });
   }
 
