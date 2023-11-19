@@ -1,24 +1,93 @@
 <nav class="navbar bg-body-secondary sticky-top">
-  <div class="container-fluid">
+  <div
+    class="container-fluid row"
+    style="
+      padding-left: 0px;
+      padding-right: 0px;
+      margin-left: 0px;
+      margin-right: 0px;
+    "
+  >
     @defer (when (table != null && currentSessionUser != null)) {
-      <span class="navbar-brand m-auto"> {{ table?.restaurant?.name }} </span>
-      <img
-        [ngSrc]="currentSessionUserImagePath"
-        width="45"
-        height="45"
-        alt=""
-        class="rounded-circle"
-        priority
-      />
+      <div class="col-4"></div>
 
-      <button class="btn btn-outline-danger btn-sm mx-1">
-        <i class="bi bi-arrow-bar-left"></i>
-      </button>
+      <div class="col-4 d-flex justify-content-center">
+        <span class="navbar-brand m-auto"> {{ table?.restaurant?.name }} </span>
+      </div>
+
+      <div
+        class="col-4 d-flex justify-content-end"
+        style="
+          padding-left: 0px;
+          padding-right: 0px;
+          margin-left: 0px;
+          margin-right: 0px;
+        "
+      >
+        <img
+          [ngSrc]="currentSessionUserImagePath"
+          width="45"
+          height="45"
+          alt=""
+          class="rounded-circle ml-auto"
+          priority
+        />
+
+        <button
+          class="btn btn-outline-danger btn-sm mx-2"
+          data-bs-toggle="modal"
+          data-bs-target="#leftSessionModal"
+        >
+          <i class="bi bi-arrow-bar-left"></i>
+        </button>
+      </div>
     } @placeholder (minimum 1s) {
       <div class="spinner-grow m-auto" role="status"></div>
     }
   </div>
 </nav>
+
+<div
+  class="modal fade"
+  id="leftSessionModal"
+  tabindex="-1"
+  aria-labelledby="leftSessionModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="leftSessionModalLabel">
+          <i class="bi bi-exclamation-triangle-fill text-danger"></i> Sair da
+          Sessão
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Essa opcão está habilitada apenas para testes, saindo da sessão você
+        volta para tela principal e não consegue mais usar o usuário atual.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-bs-dismiss="modal"
+          (click)="logout()"
+        >
+          Sair
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <style>
   .content-body {

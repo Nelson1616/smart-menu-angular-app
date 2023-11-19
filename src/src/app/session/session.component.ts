@@ -142,6 +142,15 @@ export class SessionComponent implements OnInit, OnDestroy {
     });
   }
 
+  logout() {
+    this.toastr.error('Saindo da sessão.', 'Logout');
+
+    this.cookieService.deleteAll('/');
+    setTimeout(() => {
+      this.router.navigate(['/']);
+    }, 1000);
+  }
+
   ngOnInit(): void {
     this.tableCode = this.cookieService.get('currentTableCode');
     this.currentSessionUserId = Number(
