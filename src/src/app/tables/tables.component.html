@@ -1,4 +1,4 @@
-<nav class="navbar bg-body-secondary">
+<nav class="navbar bg-body-secondary sticky-top">
   <div class="container-fluid">
     @defer (when table != null) {
       <span class="navbar-brand m-auto"> {{ table?.restaurant?.name }} </span>
@@ -8,9 +8,17 @@
   </div>
 </nav>
 
+<style>
+  .content-body {
+    @media (min-width: 576px) {
+      height: 100vh;
+    }
+  }
+</style>
+
 @defer (when table != null) {
   <div class="row">
-    <div class="col-sm-8 p-3">
+    <div class="col-xl-9 col-lg-8 overflow-y-scroll content-body mt-2">
       <div
         style="width: 80%; aspect-ratio: 1.5; position: relative"
         class="mx-auto"
@@ -68,7 +76,7 @@
       </div>
     </div>
 
-    <div class="col-sm-4 bg-danger">
+    <div class="col-xl-3 col-lg-4 bg-danger">
       <h3 class="text-light text-center my-3">Perfil</h3>
 
       <div>
@@ -94,6 +102,7 @@
           @for (avatar of avatars; track avatar.id) {
             <div
               style="width: 20%; aspect-ratio: 1; position: relative"
+              class="m-1"
               (click)="selectAvatar(avatar.id)"
             >
               <img
@@ -106,6 +115,25 @@
             </div>
           }
         </ul>
+      </div>
+
+      <div class="mb-3 mx-2">
+        <label for="nameInput" class="form-label h5 text-light">Nome</label>
+        <input
+          type="email"
+          class="form-control bg-danger text-light"
+          style="font-size: 35px"
+          id="nameInput"
+        />
+      </div>
+
+      <div class="mx-2 mt-4 mb-5">
+        <button
+          class="btn btn-light text-danger w-100 rounded-pill py-3"
+          style="font-size: 30px"
+        >
+          ENTRAR
+        </button>
       </div>
     </div>
   </div>
