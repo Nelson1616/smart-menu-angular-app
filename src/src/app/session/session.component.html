@@ -2,6 +2,14 @@
   <div class="container-fluid">
     @defer (when table != null) {
       <span class="navbar-brand m-auto"> {{ table?.restaurant?.name }} </span>
+      <img
+        [ngSrc]="currentSessionUserImagePath"
+        width="45"
+        height="45"
+        alt=""
+        class="rounded-circle"
+        priority
+      />
     } @placeholder (minimum 1s) {
       <div class="spinner-grow m-auto" role="status"></div>
     }

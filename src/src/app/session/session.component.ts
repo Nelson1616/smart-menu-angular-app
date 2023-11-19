@@ -8,7 +8,7 @@ import {
   effect,
   signal,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Table } from '../models/table/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -21,7 +21,7 @@ import { SessionUser } from '../models/session-user/session-user';
 @Component({
   selector: 'app-session',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgOptimizedImage],
   templateUrl: './session.component.html',
   styleUrl: './session.component.css',
 })
@@ -30,6 +30,7 @@ export class SessionComponent implements OnInit, OnDestroy {
   currentSessionUserId: number = 0;
 
   currentSessionUser: SessionUser | null = null;
+  currentSessionUserImagePath: string = '';
   table: Table | null = null;
   sessionUsers: WritableSignal<SessionUser[]> = signal([]);
 
@@ -112,6 +113,9 @@ export class SessionComponent implements OnInit, OnDestroy {
 
           if (sessionUser.id == this.currentSessionUserId) {
             this.currentSessionUser = sessionUser;
+            this.currentSessionUserImagePath = `/assets/images/avatar_${
+              this.currentSessionUser!.user!.imageid
+            }.png`;
           }
 
           newSessionUsers.push(sessionUser);
