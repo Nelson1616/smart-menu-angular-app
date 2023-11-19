@@ -148,6 +148,7 @@
           class="form-control bg-danger text-light"
           style="font-size: 35px"
           id="nameInput"
+          [(ngModel)]="userName"
         />
       </div>
 
@@ -155,6 +156,7 @@
         <button
           class="btn btn-light text-danger w-100 rounded-pill py-3"
           style="font-size: 30px"
+          (click)="enterTable()"
         >
           ENTRAR
         </button>

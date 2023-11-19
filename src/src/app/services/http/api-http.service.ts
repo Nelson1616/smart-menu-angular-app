@@ -29,4 +29,11 @@ export class ApiHttpService {
   getTableByCode(code: string) {
     return this.get('tables/' + code);
   }
+
+  enterTableByCode(code: string, userName: string, userImageId: number) {
+    return this.post('tables/enter/' + code, {
+      'userName' : userName,
+      'userImageId': userImageId
+    });
+  }
 }

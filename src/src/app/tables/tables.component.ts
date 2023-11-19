@@ -16,11 +16,12 @@ import { SessionUser } from '../models/session-user/session-user';
 import { Table } from '../models/table/table';
 import { Logger } from '../utils/logger/logger';
 import { NgOptimizedImage } from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-tables',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage],
+  imports: [CommonModule, NgOptimizedImage, FormsModule],
   templateUrl: './tables.component.html',
   styleUrl: './tables.component.css',
 })
@@ -37,6 +38,8 @@ export class TablesComponent implements OnInit, OnDestroy {
     id: 1,
     path: '/assets/images/avatar_1.png',
   };
+
+  userName: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -118,6 +121,14 @@ export class TablesComponent implements OnInit, OnDestroy {
       id: avatarId,
       path: `/assets/images/avatar_${avatarId}.png`,
     };
+  }
+
+  enterTable() {
+    Logger.d(['enterTable', this.userName]);
+
+    this.api.enterTableByCode(this.tableCode, this.userName, this.selectedAvatar.id).subscribe(data => {
+      Logger.d(data);
+    });
   }
 
   ngOnInit(): void {
