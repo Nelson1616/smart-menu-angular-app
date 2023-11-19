@@ -56,9 +56,17 @@ export class TablesComponent implements OnInit, OnDestroy {
       () => {
         Logger.d(['afterNextRender', this.tableCode]);
 
-        this.setupTableData();
+        if (this.cookieService.get('currentTableCode') != '') {
+          this.router.navigate(['/session'], { replaceUrl: true });
+        } else {
+          this.route.paramMap.subscribe((paramMap) => {
+            this.tableCode = paramMap.get('code')!;
 
-        this.setupUsersSocket();
+            this.setupTableData();
+
+            this.setupUsersSocket();
+          });
+        }
       },
       { phase: AfterRenderPhase.Write }
     );
@@ -161,9 +169,12 @@ export class TablesComponent implements OnInit, OnDestroy {
 
             this.cookieService.set(
               'currentSessionUserId',
-              currentSessionUser.id + ''
+              currentSessionUser.id + '',
+              { path: '/' }
             );
-            this.cookieService.set('currentTableId', currentTable.id + '');
+            this.cookieService.set('currentTableCode', this.tableCode, {
+              path: '/',
+            });
 
             Logger.d([currentSessionUser, currentTable]);
 
@@ -177,10 +188,6 @@ export class TablesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     Logger.d('ngOnInit');
-
-    this.route.paramMap.subscribe((paramMap) => {
-      this.tableCode = paramMap.get('code')!;
-    });
 
     for (let i = 1; i < 9; i++) {
       this.avatars.push({

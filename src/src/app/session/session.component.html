@@ -1,1 +1,27 @@
-<p>session works!</p>
+<nav class="navbar bg-body-secondary sticky-top">
+  <div class="container-fluid">
+    @defer (when table != null) {
+      <span class="navbar-brand m-auto"> {{ table?.restaurant?.name }} </span>
+    } @placeholder (minimum 1s) {
+      <div class="spinner-grow m-auto" role="status"></div>
+    }
+  </div>
+</nav>
+
+<style>
+  .content-body {
+    @media (min-width: 576px) {
+      height: 100vh;
+    }
+  }
+</style>
+
+@defer (when table != null) {
+} @placeholder (minimum 1s) {
+  <div
+    class="d-flex justify-content-center align-items-center"
+    style="height: 500px"
+  >
+    <div class="spinner-grow mx-auto" role="status"></div>
+  </div>
+}
