@@ -36,6 +36,14 @@ export class ApiSocketService {
     });
   }
 
+  onError(): Observable<string> {
+    return new Observable<string>((observer) => {
+      this.socket.on('error', (msg) => {
+        observer.next(msg);
+      });
+    });
+  }
+
   onUsers() {
     return new Observable<{ session: unknown; sessionUsers: unknown[] }>(
       (observer) => {

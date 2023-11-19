@@ -16,7 +16,8 @@ import { SessionUser } from '../models/session-user/session-user';
 import { Table } from '../models/table/table';
 import { Logger } from '../utils/logger/logger';
 import { NgOptimizedImage } from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tables',
@@ -43,6 +44,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private toastr: ToastrService,
     private api: ApiHttpService,
     private socket: ApiSocketService
   ) {
@@ -91,6 +93,12 @@ export class TablesComponent implements OnInit, OnDestroy {
       this.socket.joinTable(this.tableCode);
     });
 
+    this.socket.onError().subscribe((message) => {
+      Logger.d(['socket onError', message]);
+
+      this.toastr.error(message, 'Erro');
+    });
+
     this.socket.onUsers().subscribe((data) => {
       Logger.d(['socket onUsers', data.sessionUsers]);
 
@@ -126,9 +134,23 @@ export class TablesComponent implements OnInit, OnDestroy {
   enterTable() {
     Logger.d(['enterTable', this.userName]);
 
-    this.api.enterTableByCode(this.tableCode, this.userName, this.selectedAvatar.id).subscribe(data => {
-      Logger.d(data);
-    });
+    this.api
+      .enterTableByCode(this.tableCode, this.userName, this.selectedAvatar.id)
+      .subscribe((data) => {
+        try {
+          Logger.d(data);
+
+          if (data.success == null) {
+            throw new Error('unknow message from api');
+          }
+
+          if (data.success == false) {
+            this.toastr.error(data.message, 'Erro');
+          }
+        } catch (e) {
+          Logger.d((e as Error).message);
+        }
+      });
   }
 
   ngOnInit(): void {
