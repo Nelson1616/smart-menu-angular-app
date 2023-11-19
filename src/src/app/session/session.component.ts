@@ -17,6 +17,7 @@ import { ApiSocketService } from '../services/socket/api-socket.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Logger } from '../utils/logger/logger';
 import { SessionUser } from '../models/session-user/session-user';
+import { SessionOrder } from '../models/session-order/session-order';
 
 @Component({
   selector: 'app-session',
@@ -33,6 +34,7 @@ export class SessionComponent implements OnInit, OnDestroy {
   currentSessionUserImagePath: string = '';
   table: Table | null = null;
   sessionUsers: WritableSignal<SessionUser[]> = signal([]);
+  sessionOrders: WritableSignal<SessionOrder[]> = signal([]);
 
   constructor(
     private route: ActivatedRoute,
@@ -60,6 +62,7 @@ export class SessionComponent implements OnInit, OnDestroy {
 
     effect(() => {
       Logger.d(['sessionUsers siginal', this.sessionUsers()]);
+      Logger.d(['sessionOrders siginal', this.sessionOrders()]);
     });
   }
 
@@ -139,6 +142,24 @@ export class SessionComponent implements OnInit, OnDestroy {
 
     this.socket.onOrders().subscribe((data) => {
       Logger.d(['socket onOrders', data.sessionOrders]);
+
+      this.sessionOrders.set([]);
+
+      const newSessionOrders: SessionOrder[] = [];
+
+      data.sessionOrders.forEach((sessionOrderObj) => {
+        try {
+          const sessionOrder: SessionOrder = SessionOrder.parse(
+            JSON.stringify(sessionOrderObj)
+          );
+
+          newSessionOrders.push(sessionOrder);
+        } catch (e) {
+          Logger.d((e as Error).message);
+        }
+      });
+
+      this.sessionOrders.set(newSessionOrders);
     });
   }
 
