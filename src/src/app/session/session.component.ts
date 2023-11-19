@@ -79,6 +79,11 @@ export class SessionComponent implements OnInit, OnDestroy {
         Logger.d(this.table);
       } catch (e) {
         Logger.d((e as Error).message);
+
+        this.cookieService.deleteAll('/');
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 1000);
       }
     });
   }
@@ -96,6 +101,11 @@ export class SessionComponent implements OnInit, OnDestroy {
       Logger.d(['socket onError', message]);
 
       this.toastr.error(message, 'Erro');
+
+      this.cookieService.deleteAll('/');
+      setTimeout(() => {
+        this.router.navigate(['/']);
+      }, 1000);
     });
 
     this.socket.onUsers().subscribe((data) => {
