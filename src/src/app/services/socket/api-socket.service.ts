@@ -54,9 +54,25 @@ export class ApiSocketService {
     );
   }
 
+  onOrders() {
+    return new Observable<{ session: unknown; sessionOrders: unknown[] }>(
+      (observer) => {
+        this.socket.on('orders', (data) => {
+          observer.next(data);
+        });
+      }
+    );
+  }
+
   joinTable(tableCode: string) {
     this.socket.emit('join_table', {
       table_code: tableCode,
+    });
+  }
+
+  joinSession(sessionUserId: number) {
+    this.socket.emit('join_session', {
+      session_user_id: sessionUserId,
     });
   }
 }

@@ -16,7 +16,7 @@
   }
 </style>
 
-@defer (when table != null) {
+@defer (when (table != null && currentSessionUser != null)) {
 } @placeholder (minimum 1s) {
   <div
     class="d-flex justify-content-center align-items-center"
