@@ -170,10 +170,11 @@ export class TablesComponent implements OnInit, OnDestroy {
             this.cookieService.set(
               'currentSessionUserId',
               currentSessionUser.id + '',
-              { path: '/' }
+              { path: '/', expires: new Date().getDate() + 7 }
             );
             this.cookieService.set('currentTableCode', this.tableCode, {
               path: '/',
+              expires: new Date().getDate() + 7,
             });
 
             Logger.d([currentSessionUser, currentTable]);
