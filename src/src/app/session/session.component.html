@@ -298,6 +298,66 @@
     </div>
   </div>
 
+  <div
+    class="modal fade"
+    id="paymentModal"
+    tabindex="-1"
+    aria-labelledby="paymentModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="paymentModalLabel">
+            <i class="bi bi-cash-coin text-success"></i> Pagamento
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div>
+            <h5 class="text-center">Deseja pagar sua conta?</h5>
+
+            <div class="d-flex justify-content-center">
+              <h5>Total:</h5>
+              <h2 class="text-success">
+                R$ {{ currentSessionUser!.amountTopay / 100 }}
+              </h2>
+            </div>
+          </div>
+
+          <button
+            class="btn btn-success w-100 d-block my-4"
+            (click)="makeWaiterCall()"
+          >
+            Chamar Garçom <i class="bi bi-person-raised-hand"></i>
+          </button>
+
+          <button class="btn btn-success w-100 d-block my-4" disabled>
+            Pagar com Pix <i class="bi bi-qr-code"></i>
+          </button>
+
+          <button class="btn btn-success w-100 d-block my-4" disabled>
+            Pagar com Catão <i class="bi bi-credit-card"></i>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary w-100 mx-5"
+            data-bs-dismiss="modal"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <nav class="navbar fixed-bottom bg-danger">
     <div class="container-fluid justify-content-around">
       <div class="d-flex align-items-center text-light">
@@ -307,7 +367,11 @@
       </div>
 
       <div>
-        <button class="btn btn-light text-danger rounded-pill px-5 py-2">
+        <button
+          class="btn btn-light text-danger rounded-pill px-5 py-2"
+          data-bs-toggle="modal"
+          data-bs-target="#paymentModal"
+        >
           <h5>Pagar</h5>
         </button>
       </div>
