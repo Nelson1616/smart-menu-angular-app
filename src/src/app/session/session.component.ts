@@ -19,11 +19,17 @@ import { Logger } from '../utils/logger/logger';
 import { SessionUser } from '../models/session-user/session-user';
 import { SessionOrder } from '../models/session-order/session-order';
 import { ProductComponent } from '../components/product/product.component';
+import { SessionOrderComponent } from '../components/session-order/session-order.component';
 
 @Component({
   selector: 'app-session',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage, ProductComponent],
+  imports: [
+    CommonModule,
+    NgOptimizedImage,
+    ProductComponent,
+    SessionOrderComponent,
+  ],
   templateUrl: './session.component.html',
   styleUrl: './session.component.css',
 })
