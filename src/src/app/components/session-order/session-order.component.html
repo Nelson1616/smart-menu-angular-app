@@ -60,9 +60,23 @@
     </div>
 
     <div>
-      <button class="btn btn-success w-100 my-2 mx-auto">
-        Dividir Pedido <i class="bi bi-person-plus-fill"></i>
-      </button>
+      @if (!verifyUserInOrder()) {
+        <button
+          class="btn btn-success w-100 my-2 mx-auto"
+          (click)="helpWithOrder()"
+          [disabled]="!allowAction"
+        >
+          Dividir Pedido <i class="bi bi-person-plus-fill"></i>
+        </button>
+      } @else {
+        <button
+          class="btn btn-warning w-100 my-2 mx-auto"
+          (click)="notHelpWithOrder()"
+          [disabled]="!allowAction"
+        >
+          Deixar de Dividir Pedido <i class="bi bi-heartbreak"></i>
+        </button>
+      }
     </div>
   </div>
 } @placeholder (minimum 1s) {

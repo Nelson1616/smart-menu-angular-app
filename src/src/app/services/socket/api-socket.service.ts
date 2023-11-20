@@ -89,4 +89,18 @@ export class ApiSocketService {
       quantity: quantity,
     });
   }
+
+  helpWithOrder(sessionUserId: number, sessionOrderId: number) {
+    this.socket.emit('help_with_order', {
+      session_user_id: sessionUserId,
+      session_order_id: sessionOrderId,
+    });
+  }
+
+  notHelpWithOrder(sessionUserId: number, sessionOrderId: number) {
+    this.socket.emit('not_help_with_order', {
+      session_user_id: sessionUserId,
+      session_order_id: sessionOrderId,
+    });
+  }
 }

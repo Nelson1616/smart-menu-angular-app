@@ -224,6 +224,26 @@ export class SessionComponent implements OnInit, OnDestroy {
     }
   }
 
+  helpWithOrder(sessionOrderId: number) {
+    try {
+      Logger.d(['helpWithOrder', sessionOrderId]);
+
+      this.socket.helpWithOrder(this.currentSessionUserId, sessionOrderId);
+    } catch (e) {
+      Logger.d((e as Error).message);
+    }
+  }
+
+  notHelpWithOrder(sessionOrderId: number) {
+    try {
+      Logger.d(['notHelpWithOrder', sessionOrderId]);
+
+      this.socket.notHelpWithOrder(this.currentSessionUserId, sessionOrderId);
+    } catch (e) {
+      Logger.d((e as Error).message);
+    }
+  }
+
   switchPage(product: boolean) {
     this.onProductsPage = product;
   }

@@ -193,6 +193,8 @@
             <app-session-order
               [currentSessionUser]="currentSessionUser"
               [sessionOrder]="sessionOrder"
+              (helpWithOrderEventEmitter)="helpWithOrder($event)"
+              (notHelpWithOrderEventEmitter)="notHelpWithOrder($event)"
             ></app-session-order>
           </div>
         }
