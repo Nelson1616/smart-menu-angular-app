@@ -18,11 +18,12 @@ import { CookieService } from 'ngx-cookie-service';
 import { Logger } from '../utils/logger/logger';
 import { SessionUser } from '../models/session-user/session-user';
 import { SessionOrder } from '../models/session-order/session-order';
+import { ProductComponent } from '../components/product/product.component';
 
 @Component({
   selector: 'app-session',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage],
+  imports: [CommonModule, NgOptimizedImage, ProductComponent],
   templateUrl: './session.component.html',
   styleUrl: './session.component.css',
 })
