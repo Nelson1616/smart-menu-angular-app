@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Product } from '../../models/product/product';
 
@@ -11,4 +11,40 @@ import { Product } from '../../models/product/product';
 })
 export class ProductComponent {
   @Input() product: Product | null = null;
+
+  @Output() makeOrderEventEmitter = new EventEmitter<{
+    productId: number;
+    quantity: number;
+  }>();
+
+  allowOrder: boolean = true;
+
+  quantity: number = 1;
+
+  minusQuantity() {
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
+  }
+
+  plusQuantity() {
+    this.quantity++;
+  }
+
+  makeOrder() {
+    if (this.allowOrder) {
+      this.allowOrder = false;
+
+      this.makeOrderEventEmitter.emit({
+        productId: this.product!.id,
+        quantity: this.quantity,
+      });
+
+      this.quantity = 1;
+
+      setTimeout(() => {
+        this.allowOrder = true;
+      }, 3000);
+    }
+  }
 }

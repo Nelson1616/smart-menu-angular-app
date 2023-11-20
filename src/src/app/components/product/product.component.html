@@ -22,14 +22,23 @@
         class="rounded border border-dark p-2 d-flex justify-content-around"
         style="width: 45%"
       >
-        <button class="btn btn-light text-danger">-</button>
-        <h5 class="mx-3 my-auto">1</h5>
-        <button class="btn btn-light text-danger">+</button>
+        <button class="btn btn-light text-danger" (click)="minusQuantity()">
+          -
+        </button>
+        <h5 class="mx-3 my-auto">{{ quantity }}</h5>
+        <button class="btn btn-light text-danger" (click)="plusQuantity()">
+          +
+        </button>
       </div>
 
-      <button class="btn btn-success rounded" style="width: 45%">
+      <button
+        class="btn btn-success rounded"
+        style="width: 45%"
+        (click)="makeOrder()"
+        [disabled]="!allowOrder"
+      >
         <div style="font-size: smaller">Fazer Pedido</div>
-        <div class="h5">R$ {{ product!.price / 100 }}</div>
+        <div class="h5">R$ {{ (product!.price / 100) * quantity }}</div>
       </button>
     </div>
   </div>

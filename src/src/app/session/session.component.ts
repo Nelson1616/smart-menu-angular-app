@@ -169,25 +169,52 @@ export class SessionComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.toastr.error('Saindo da sessão.', 'Logout');
+    try {
+      this.toastr.error('Saindo da sessão.', 'Logout');
 
-    this.cookieService.deleteAll('/');
-    setTimeout(() => {
-      this.router.navigate(['/']);
-    }, 1000);
+      this.cookieService.deleteAll('/');
+      setTimeout(() => {
+        this.router.navigate(['/']);
+      }, 1000);
+    } catch (e) {
+      Logger.d((e as Error).message);
+    }
   }
 
   makeWaiterCall() {
-    if (this.enableWaiterCall) {
-      this.toastr.success('Aguarde o atendimento.', 'Chamando Garçom');
+    try {
+      if (this.enableWaiterCall) {
+        this.toastr.success('Aguarde o atendimento.', 'Chamando Garçom');
 
-      this.enableWaiterCall = false;
+        this.enableWaiterCall = false;
 
-      this.socket.callCaiter(this.currentSessionUserId);
+        this.socket.callCaiter(this.currentSessionUserId);
 
-      setInterval(() => {
-        this.enableWaiterCall = true;
-      }, 5000);
+        setInterval(() => {
+          this.enableWaiterCall = true;
+        }, 5000);
+      }
+    } catch (e) {
+      Logger.d((e as Error).message);
+    }
+  }
+
+  makeOrder(productData: { productId: number; quantity: number }) {
+    try {
+      Logger.d(productData);
+
+      this.socket.makeOrder(
+        this.currentSessionUserId,
+        productData.productId,
+        productData.quantity
+      );
+
+      this.toastr.success(
+        'Aguarde enquanto seu pedido é preparado.',
+        'Pedido Feito'
+      );
+    } catch (e) {
+      Logger.d((e as Error).message);
     }
   }
 

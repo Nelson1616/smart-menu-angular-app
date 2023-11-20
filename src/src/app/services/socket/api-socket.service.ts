@@ -81,4 +81,12 @@ export class ApiSocketService {
       session_user_id: sessionUserId,
     });
   }
+
+  makeOrder(sessionUserId: number, productId: number, quantity: number) {
+    this.socket.emit('make_order', {
+      session_user_id: sessionUserId,
+      product_id: productId,
+      quantity: quantity,
+    });
+  }
 }

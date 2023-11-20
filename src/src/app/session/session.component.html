@@ -10,7 +10,11 @@
   >
     @defer (when (table != null && currentSessionUser != null)) {
       <div class="col-4">
-        <button class="btn btn-outline-light mx-2" (click)="makeWaiterCall()">
+        <button
+          class="btn btn-outline-light mx-2"
+          (click)="makeWaiterCall()"
+          [disabled]="!enableWaiterCall"
+        >
           <i class="bi bi-person-raised-hand"></i>
         </button>
       </div>
@@ -171,7 +175,10 @@
       >
         @for (product of table!.restaurant!.products; track product.id) {
           <div class="col-12 my-3">
-            <app-product [product]="product"></app-product>
+            <app-product
+              [product]="product"
+              (makeOrderEventEmitter)="makeOrder($event)"
+            ></app-product>
           </div>
         }
       </div>
@@ -294,6 +301,7 @@
           <button
             class="btn btn-success w-100 d-block my-4"
             (click)="makeWaiterCall()"
+            [disabled]="!enableWaiterCall"
           >
             Chamar Garçom <i class="bi bi-person-raised-hand"></i>
           </button>
