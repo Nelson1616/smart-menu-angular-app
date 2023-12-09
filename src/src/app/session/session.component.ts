@@ -138,6 +138,10 @@ export class SessionComponent implements OnInit, OnDestroy {
           );
 
           if (sessionUser.id == this.currentSessionUserId) {
+            if (sessionUser.statusId == 0) {
+              this.finished();
+            }
+
             this.currentSessionUser = sessionUser;
             this.currentSessionUserImagePath = `/assets/images/avatar_${
               this.currentSessionUser!.user!.imageid
@@ -179,6 +183,19 @@ export class SessionComponent implements OnInit, OnDestroy {
   logout() {
     try {
       this.toastr.error('Saindo da sessão.', 'Logout');
+
+      this.cookieService.deleteAll('/');
+      setTimeout(() => {
+        this.router.navigate(['/']);
+      }, 1000);
+    } catch (e) {
+      Logger.d((e as Error).message);
+    }
+  }
+
+  finished() {
+    try {
+      this.toastr.success('Volte sempre!', 'Sessão Terminada');
 
       this.cookieService.deleteAll('/');
       setTimeout(() => {
