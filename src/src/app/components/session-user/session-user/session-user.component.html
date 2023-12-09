@@ -1,0 +1,28 @@
+@defer (when sessionUser != null) {
+  <div
+    [class]="
+      sessionUser?.statusId == 0
+        ? 'user-bg-paid rounded-pill d-flex p-1 mx-1'
+        : 'bg-info rounded-pill d-flex p-1 mx-1'
+    "
+  >
+    <div style="width: 45px; aspect-ratio: 1; position: relative">
+      <img
+        ngSrc="/assets/images/avatar_{{ sessionUser!.user?.imageid }}.png"
+        fill
+        alt=""
+        class="rounded-circle"
+        priority
+      />
+    </div>
+
+    <div
+      class="d-flex align-items-center text-light mx-2"
+      style="white-space: nowrap"
+    >
+      <h5>{{ sessionUser!.user?.name }}</h5>
+    </div>
+  </div>
+} @placeholder (minimum 1s) {
+  <div class="spinner-grow m-auto" role="status"></div>
+}

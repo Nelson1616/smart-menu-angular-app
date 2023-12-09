@@ -2,11 +2,12 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { SessionOrder } from '../../models/session-order/session-order';
 import { SessionUser } from '../../models/session-user/session-user';
+import { SessionUserComponent } from '../session-user/session-user/session-user.component';
 
 @Component({
   selector: 'app-session-order',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage],
+  imports: [CommonModule, NgOptimizedImage, SessionUserComponent],
   templateUrl: './session-order.component.html',
   styleUrl: './session-order.component.css',
 })

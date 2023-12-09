@@ -19,11 +19,12 @@ import { NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
+import { SessionUserComponent } from '../components/session-user/session-user/session-user.component';
 
 @Component({
   selector: 'app-tables',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage, FormsModule],
+  imports: [CommonModule, NgOptimizedImage, FormsModule, SessionUserComponent],
   providers: [CookieService],
   templateUrl: './tables.component.html',
   styleUrl: './tables.component.css',

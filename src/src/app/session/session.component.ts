@@ -20,6 +20,7 @@ import { SessionUser } from '../models/session-user/session-user';
 import { SessionOrder } from '../models/session-order/session-order';
 import { ProductComponent } from '../components/product/product.component';
 import { SessionOrderComponent } from '../components/session-order/session-order.component';
+import { SessionUserComponent } from '../components/session-user/session-user/session-user.component';
 
 @Component({
   selector: 'app-session',
@@ -29,6 +30,7 @@ import { SessionOrderComponent } from '../components/session-order/session-order
     NgOptimizedImage,
     ProductComponent,
     SessionOrderComponent,
+    SessionUserComponent,
   ],
   templateUrl: './session.component.html',
   styleUrl: './session.component.css',

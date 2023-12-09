@@ -35,26 +35,7 @@
           sessionOrderUser of sessionOrder!.sessionOrderUsers;
           track sessionOrderUser.id
         ) {
-          <div class="bg-info rounded-pill d-flex p-1 mx-1">
-            <div style="width: 45px; aspect-ratio: 1; position: relative">
-              <img
-                ngSrc="/assets/images/avatar_{{
-                  sessionOrderUser.sessionUser!.user?.imageid
-                }}.png"
-                fill
-                alt=""
-                class="rounded-circle"
-                priority
-              />
-            </div>
-
-            <div
-              class="d-flex align-items-center text-light mx-2"
-              style="white-space: nowrap"
-            >
-              <h5>{{ sessionOrderUser.sessionUser!.user?.name }}</h5>
-            </div>
-          </div>
+          <app-session-user [sessionUser]="sessionOrderUser.sessionUser!" />
         }
       </div>
     </div>
