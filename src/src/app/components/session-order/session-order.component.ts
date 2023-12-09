@@ -30,6 +30,10 @@ export class SessionOrderComponent {
     return false;
   }
 
+  verifyOrderAvailable(): boolean {
+    return this.sessionOrder!.statusId != 0 && this.sessionOrder!.statusId != 4;
+  }
+
   helpWithOrder() {
     if (this.allowAction) {
       this.allowAction = false;

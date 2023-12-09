@@ -11,6 +11,18 @@
         </p>
 
         <h3>= R${{ sessionOrder!.amount / 100 }}</h3>
+
+        @if (sessionOrder!.statusId == 0) {
+          <h5 class="text-success">Pedido Pago</h5>
+        } @else if (sessionOrder!.statusId == 1) {
+          <h5 class="text-warning">Pedido Feito</h5>
+        } @else if (sessionOrder!.statusId == 2) {
+          <h5 class="text-info">Pedido Recebido</h5>
+        } @else if (sessionOrder!.statusId == 3) {
+          <h5 class="text-secondary">Pedido Entregue</h5>
+        } @else {
+          <h5 class="text-danger">Pedido Cancelado</h5>
+        }
       </div>
 
       <div class="col-6">
@@ -41,7 +53,7 @@
     </div>
 
     <div>
-      @if (!verifyUserInOrder()) {
+      @if (!verifyUserInOrder() && verifyOrderAvailable()) {
         <button
           class="btn btn-success w-100 my-2 mx-auto"
           (click)="helpWithOrder()"
@@ -49,7 +61,9 @@
         >
           Dividir Pedido <i class="bi bi-person-plus-fill"></i>
         </button>
-      } @else {
+      } @else if (
+        (sessionOrder?.sessionOrderUsers)!.length >= 2 && verifyOrderAvailable()
+      ) {
         <button
           class="btn btn-warning w-100 my-2 mx-auto"
           (click)="notHelpWithOrder()"
