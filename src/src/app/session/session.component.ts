@@ -117,11 +117,6 @@ export class SessionComponent implements OnInit, OnDestroy {
       Logger.d(['socket onError', message]);
 
       this.toastr.error(message, 'Erro');
-
-      this.cookieService.deleteAll('/');
-      setTimeout(() => {
-        this.router.navigate(['/']);
-      }, 1000);
     });
 
     this.socket.onUsers().subscribe((data) => {
