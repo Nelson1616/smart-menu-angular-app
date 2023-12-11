@@ -30,6 +30,12 @@ export class SessionOrderComponent {
     return false;
   }
 
+  verifyActiveUsers(): number {
+    return this.sessionOrder!.sessionOrderUsers!.filter(
+      (sessionOrderUser) => sessionOrderUser.statusId == 1
+    ).length;
+  }
+
   verifyOrderAvailable(): boolean {
     return this.sessionOrder!.statusId != 0 && this.sessionOrder!.statusId != 4;
   }

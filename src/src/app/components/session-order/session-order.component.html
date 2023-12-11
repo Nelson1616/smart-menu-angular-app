@@ -61,9 +61,7 @@
         >
           Dividir Pedido <i class="bi bi-person-plus-fill"></i>
         </button>
-      } @else if (
-        (sessionOrder?.sessionOrderUsers)!.length >= 2 && verifyOrderAvailable()
-      ) {
+      } @else if (verifyActiveUsers() >= 2 && verifyOrderAvailable()) {
         <button
           class="btn btn-warning w-100 my-2 mx-auto"
           (click)="notHelpWithOrder()"
